@@ -1,0 +1,249 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         ARQUIVO LATEX - ARTIGO TCC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[sigconf]{acmart}
+
+% --- PACOTES ESSENCIAIS ---
+\usepackage[utf8]{inputenc} % Permite acentuação em português
+\usepackage{graphicx}     % Para incluir figuras
+\usepackage{booktabs}     % Para tabelas com qualidade (top, mid, bottomrule)
+\usepackage{amsmath}      % Para símbolos matemáticos como R^2
+\usepackage{textcomp}     % Para símbolo de copyright, etc.
+\usepackage{lipsum}       % Apenas para texto de exemplo (pode remover)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         BLOCO DE COPYRIGHT - SBC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcopyright{sbc}
+\acmConference[COTB '25]{Computer on the Beach '25}{Abril 01--03, 2025}{Florianópolis, SC}
+\acmBooktitle{Anais do Computer on the Beach 2025 (COTB '25), Abril 01--03, 2025, Florianópolis, SC}
+\acmPrice{}
+\acmISBN{}
+\acmDOI{} 
+
+
+% --- METADADOS DO ARTIGO ---
+\title{Predição de Peso da Tilápia do Nilo por Meio do Fenótipo Usando Redes Neurais Convolucionais}
+
+\author{Henrique Yoshiharu Kajihara}
+\affiliation{
+\institution{Universidade Estadual de Maringá (UEM)}
+\streetaddress{Av. Colombo, 5790 - Bloco C56}
+\city{Maringá}
+\state{Paraná}
+\country{Brasil}
+\postcode{87020-900}
+}
+\email{henriqueykajihara@gmail.com} 
+
+\author{Josiane Melchiori Pinheiro}
+\affiliation{
+\institution{Universidade Estadual de Maringá (UEM)}
+\city{Maringá}
+\state{Paraná}
+\country{Brasil}
+}
+\email{jmpferreira@uem.br}
+
+% --- RESUMO E PALAVRAS-CHAVE ---
+\begin{abstract}
+Biometric analysis in fish farms, such as weighing and measuring Nile tilapia, is a manual and stressful procedure for the animals and incurs significant costs, leading to growth delays and stock losses. This study investigates the application of Convolutional Neural Networks (CNNs) to estimate tilapia weight from images of its phenotype, with the aim of automating and optimizing this process. Using an existing image dataset, several CNN models were trained and evaluated. The results are promising, with some configurations achieving discrepancies of only 45–50 grams between predicted and actual weight, and a coefficient of determination ($R^2$) of 0.97.  It is concluded that it is feasible to develop an efficient and accurate system to predict the weight of Nile tilapia using CNNs, with potential to increase productivity and reduce costs in fish farming.
+\end{abstract}
+
+% --- CCS (ACM Computing Classification System) ---
+% Ferramenta para gerar: https://dl.acm.org/ccs
+\begin{CCSXML}
+<ccs2012>
+<concept>
+    <concept_id>10010147.10010257.10010293.10010294</concept_id>
+    <concept_desc>Computing methodologies~Neural networks</concept_desc>
+    <concept_significance>500</concept_significance>
+    </concept>
+<concept>
+    <concept_id>10010147.10010178.10010224.10010245.10010251</concept_id>
+    <concept_desc>Computing methodologies~Object recognition</concept_desc>
+    <concept_significance>300</concept_significance>
+    </concept>
+<concept>
+    <concept_id>10003752.10003809.10003716.10011136.10011137</concept_id>
+    <concept_desc>Applied computing~Agriculture</concept_desc>
+    <concept_significance>400</concept_significance>
+    </concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Computing methodologies~Neural networks}
+\ccsdesc[300]{Computing methodologies~Object recognition}
+\ccsdesc[400]{Applied computing~Agriculture}
+
+% --- PALAVRAS-CHAVE ---
+\keywords{Inteligência Artificial (IA), Redes Neurais Convolucionais (CNNs), Visão Computacional, Tilápia do Nilo, Piscicultura, Predição de Peso.}
+
+
+% --- INÍCIO ---
+\begin{document}
+
+\maketitle
+
+% --------------------------------------------------------------
+\section{Introdução}
+% --------------------------------------------------------------
+A tecnologia tem se tornado fundamental no agronegócio para otimização de custos e lucros. Na piscicultura da Tilápia do Nilo, a análise biométrica é crucial para acompanhar a evolução do cardume. Este manejo, no entanto, é quase inteiramente manual, exigindo a retirada dos peixes da água para medição e pesagem.
+
+Esse processo é altamente estressante para os animais \cite{Iwama1997}, causando alterações fisiológicas que levam à baixa imunidade, diminuição da taxa de crescimento e, em alguns casos, mortalidade \cite{Iwama1997, Barcellos2000}. Além de custoso e demorado, o método invasivo impacta diretamente o bem-estar animal e a produtividade. O Brasil, sendo o quarto maior produtor mundial de tilápia \cite{PeixeBR2023}, enfrenta um desafio significativo para modernizar essa prática.
+
+Neste contexto, as Redes Neurais Convolucionais (CNNs) surgem como uma alternativa promissora. Este estudo propõe a aplicação de técnicas de *Deep Learning* para estimar o peso de tilápias de forma automatizada e não intrusiva, a partir de imagens. O objetivo geral é reduzir o tempo de manejo e o estresse animal, implementando um algoritmo que realize a predição de peso de maneira rápida e eficaz. As imagens utilizadas foram cedidas por um estudo anterior focado em rendimento de carcaça \cite{Cardoso2021}.
+
+% --------------------------------------------------------------
+\section{Trabalhos Relacionados}
+% --------------------------------------------------------------
+A aplicação de visão computacional para estimar características fenotípicas não é nova, mas sua aplicação em piscicultura é menos explorada.
+
+Ma et al. \cite{Ma2024} revisaram mais de 70 pesquisas sobre o uso de aprendizado de máquina (incluindo regressão linear e redes neurais) em imagens 2D e 3D para estimar o peso de suínos e bovinos. Eles destacam que a abordagem reduz o estresse animal e permite a coleta massiva de dados, alcançando erros percentuais tão baixos quanto 4,87\% em alguns casos. No entanto, apontam desafios como a necessidade dos animais permanecerem parados para imagens 3D e o alto custo de sensores de boa qualidade.
+
+Lee, Lee e Cho \cite{Lee2023} utilizaram redes neurais profundas em imagens 2D para estimar o peso de bovinos. O estudo comparou métodos de segmentação, utilizando Mask R-CNN (segmentação totalmente supervisionada) e alcançando uma margem de erro de 5,06\% em um conjunto de 43 animais.
+
+Inspirado por esses avanços, este trabalho aplica técnicas similares de redes neurais profundas ao estudo de tilápias, adaptando as estratégias para os desafios específicos da piscicultura.
+
+% --------------------------------------------------------------
+\section{Metodologia}
+% --------------------------------------------------------------
+O desenvolvimento foi conduzido em etapas sistemáticas, desde a aquisição dos dados até a avaliação do modelo.
+
+\subsection{Materiais e Ambiente}
+\textbf{Banco de Imagens:} Foram utilizadas 5975 imagens no formato JPG de 1195 tilápias (5 imagens de cada animal em ângulos diversos). Os dados foram obtidos na base experimental da PEIXEGEN/UEM, provenientes do estudo de Cardoso et al. \cite{Cardoso2021} e possuem aprovação da Comissão de Ética no Uso de Animais (CEUA/UEM). As fotos foram tiradas com fundo azul e uma régua de 30 cm para referência.
+
+\textbf{Ferramentas:} O modelo foi implementado em Python 3.12, utilizando TensorFlow 2.18.0, OpenCV, Pandas e Matplotlib.
+
+\textbf{Ambiente Experimental:} Os experimentos foram executados em um computador com Intel Core i7-12650H e 32 GB de RAM DDR4.
+
+\subsection{Arquitetura do Modelo Proposto}
+Foi desenvolvida uma CNN para regressão, projetada para processar imagens de entrada de $128 \times 128 \times 3$ pixels (RGB). A arquitetura, resumida na Tabela \ref{tab:arquitetura}, foi baseada em estudos de visão computacional para tarefas similares.
+
+\begin{table}[h]
+\caption{Resumo da arquitetura da CNN proposta.}
+\label{tab:arquitetura}
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Camada} & \textbf{Configuração} & \textbf{Função de Ativação} \\
+\midrule
+Entrada & Imagem $128 \times 128 \times 3$ & \\
+\midrule
+Convolucional 1 & 32 filtros $3 \times 3$ & ReLU \\
+MaxPooling 1 & $2 \times 2$ & - \\
+\midrule
+Convolucional 2 & 64 filtros $3 \times 3$ & ReLU \\
+MaxPooling 2 & $2 \times 2$ & - \\
+\midrule
+Convolucional 3 & 128 filtros $3 \times 3$ & ReLU \\
+MaxPooling 3 & $2 \times 2$ & - \\
+\midrule
+Convolucional 4 & 256 filtros $3 \times 3$ & ReLU \\
+MaxPooling 4 & $2 \times 2$ & - \\
+\midrule
+Flatten & - & - \\
+\midrule
+Dense 1 & 512 neurônios & ReLU \\
+Dropout & Taxa 0.5 & - \\
+\midrule
+Dense 2 & 256 neurônios & ReLU \\
+Dropout & Taxa 0.5 & - \\
+\midrule
+Dense 3 & 128 neurônios & ReLU \\
+\midrule
+Saída (Regressão) & 1 neurônio & Linear \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As camadas convolucionais extraem características visuais, enquanto as camadas de *pooling* reduzem a dimensionalidade espacial. Regularização L2 foi aplicada às camadas densas e *Dropout* foi usado para mitigar *overfitting*.
+
+\subsection{Treinamento e Execução}
+\textbf{Função de Perda e Otimização:} Utilizou-se o Erro Absoluto Médio (MAE) como função de perda, por ser diretamente interpretável. Foram testados comparativamente os otimizadores \textbf{Adam} e \textbf{Nadam}.
+
+\textbf{Aumento de Dados (Data Augmentation):} Devido ao banco de dados limitado, um `ImageDataGenerator` foi usado para criar variações artificiais das imagens (rotação, zoom, flip), ampliando dinamicamente o conjunto de treino.
+
+\textbf{Conjunto de Dados:} O modelo foi treinado com 5.000 imagens (1.000 peixes) e avaliado em um conjunto de teste independente de 975 imagens (195 peixes).
+
+\textbf{Experimentos:} Foram realizados quatro experimentos principais, variando o otimizador (Adam/Nadam) e o uso (ou não) de um *pipeline* de pré-processamento de imagens com OpenCV.
+
+% --------------------------------------------------------------
+\section{Resultados e Discussão}
+% --------------------------------------------------------------
+As métricas de avaliação primárias foram o \textbf{Erro Absoluto Médio (MAE)} e o \textbf{Coeficiente de Determinação ($R^2$)}.
+
+\subsection{Falha no Pré-processamento}
+Uma descoberta inicial significativa foi que o *pipeline* de pré-processamento desenvolvido com OpenCV (incluindo ajuste de brilho, conversão HSV e aplicação de máscaras) não foi satisfatório.
+
+Como visto na Figura \ref{fig:preprocessamento}, o processo falhou em segmentar corretamente o peixe em muitas imagens, removendo informações essenciais (partes do peixe) ou falhando em remover o fundo. Isso foi atribuído à variabilidade de iluminação e reflexos nas imagens originais. Consequentemente, os modelos treinados com imagens pré-processadas tiveram desempenho drasticamente inferior, indicando que a CNN "crua" foi mais eficaz em lidar com os dados originais.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.48\linewidth]{figura12.jpg}
+\includegraphics[width=0.48\linewidth]{figura13.jpg}
+\caption{Comparação da imagem original (esquerda) e o resultado do pré-processamento com falha (direita), que removeu partes do peixe.}
+\label{fig:preprocessamento}
+\Description{Duas imagens de uma tilápia. A da esquerda mostra o peixe inteiro contra um fundo azul. A da direita mostra o resultado de um pré-processamento ruim, onde o fundo está preto, mas partes do peixe também foram apagadas.}
+\end{figure}
+
+\subsection{Resultados dos Modelos}
+Os melhores resultados foram consistentemente obtidos sem o pré-processamento. A Tabela \ref{tab:resultados_comparativos} sumariza os melhores desempenhos encontrados para os otimizadores Adam e Nadam (sem pré-processamento).
+
+\begin{table}[h]
+\caption{Melhores resultados obtidos (sem pré-processamento).}
+\label{tab:resultados_comparativos}
+\centering
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Otimizador} & \textbf{Épocas} & \textbf{Semente} & \textbf{MAE (g)} & \textbf{$R^2$} \\
+\midrule
+Adam & 30 & 100 & 51.28 & 0.96 \\
+\textbf{Nadam} & \textbf{30} & \textbf{30} & \textbf{45.00} & \textbf{0.97} \\
+Nadam & 40 & 50 & 46.64 & 0.96 \\
+Nadam & 50 & 20 & 48.12 & 0.96 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+O otimizador \textbf{Nadam} apresentou um desempenho ligeiramente superior, alcançando o melhor resultado geral com 30 épocas e semente 30: \textbf{MAE de 45,0 gramas} e \textbf{$R^2$ de 0.97}. Um erro médio de 45-50g é considerado aceitável na prática de pesagem por amostragem.
+
+A Figura \ref{fig:grafico_resultado} ilustra a forte aderência entre os pesos reais e os pesos preditos pelo melhor modelo no conjunto de teste. Embora existam algumas discrepâncias, a maioria das predições segue de perto os valores reais.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figura14.png}
+\caption{Comparativo dos pesos reais (azul) e preditos (laranja) usando Nadam (30 épocas, 30 sementes, sem pré-processamento).}
+\label{fig:grafico_resultado}
+\Description{Gráfico de linha mostrando duas séries de dados (Peso Real e Peso Predito) muito próximas, indicando alta acurácia do modelo. O eixo Y varia de 400g a 2000g.}
+\end{figure}
+
+\subsection{Discussão}
+O desempenho superior do Nadam sobre o Adam pode ser atribuído à sua combinação do Adam com o *Nesterov Accelerated Gradient* (NAG) \cite{Ruder2016}. O Nadam antecipa a direção do gradiente, o que proporciona maior estabilidade em superfícies de perda ruidosas, como as geradas pela variabilidade de iluminação e posicionamento das tilápias nos dados de treino.
+
+É importante notar que os experimentos com o otimizador Nadam *com* pré-processamento não puderam ser concluídos. A partir de 40 épocas, a alta demanda de processamento causava o desligamento do equipamento experimental, impossibilitando o registro completo dos resultados para essa configuração.
+
+% --------------------------------------------------------------
+\section{Conclusão e Trabalhos Futuros}
+% --------------------------------------------------------------
+Este estudo demonstrou com sucesso o potencial das Redes Neurais Convolucionais para a predição de peso de tilápias a partir de imagens, alcançando um Erro Absoluto Médio (MAE) aceitável (45-50g) e um Coeficiente de Determinação ($R^2$) superior a 0.90 na maioria dos casos.
+
+Identificamos limitações importantes: (1) a ausência de dados físicos complementares, como o comprimento do peixe, que poderiam melhorar a precisão; (2) a variabilidade na qualidade das imagens (iluminação, posicionamento); e (3) o fracasso do *pipeline* de pré-processamento de imagens, que necessita de maior refinamento.
+
+Como trabalhos futuros, sugerimos:
+\begin{itemize}
+    \item Investigar métodos menos invasivos de obtenção de imagem (ex: câmeras subaquáticas), eliminando a necessidade de remover o peixe da água.
+    \item Integrar outras variáveis de entrada no modelo (ex: comprimento do peixe) para uma predição multimodal.
+    \item Explorar arquiteturas mais avançadas, como Redes Residuais (ResNets), e realizar ajustes mais finos de hiperparâmetros.
+    \item Validar o modelo em bancos de dados maiores e mais diversificados para garantir a generalização e descartar a possibilidade de um falso positivo.
+\end{itemize}
+
+A automação desse processo tem potencial para melhorar significativamente o manejo na piscicultura, reduzindo custos, promovendo o bem-estar animal e aumentando a eficiência produtiva.
+
+% --------------------------------------------------------------
+%                 BIBLIOGRAFIA
+% --------------------------------------------------------------
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{referencias_tcc} % Nome do arquivo .bib
+
+\end{document}
