@@ -4,7 +4,6 @@
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![Framework](https://img.shields.io/badge/TensorFlow-2.18-orange?logo=tensorflow)
 ![Conference](https://img.shields.io/badge/Paper-COTB_'25-red)
-![License](https://img.shields.io/badge/license-MIT-green)
 
 This repository contains the source code for the paper **"Weight Prediction of Nile Tilapia (Oreochromis niloticus) via Phenotype Using Convolutional Neural Networks"**, submitted to the Computer on the Beach 2025 (COTB '25) conference.
 
