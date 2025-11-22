@@ -1,6 +1,5 @@
 # 🐟 Nile Tilapia Weight Prediction using Convolutional Neural Networks
 
-![Status](https://img.shields.io/badge/status-complete-success)
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![Framework](https://img.shields.io/badge/TensorFlow-2.18-orange?logo=tensorflow)
 ![Conference](https://img.shields.io/badge/Paper-COTB_'25-red)
