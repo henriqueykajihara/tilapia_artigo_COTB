@@ -10,6 +10,7 @@
 \usepackage{amsmath}        % Para símbolos matemáticos como R^2
 \usepackage{textcomp}       % Para símbolo de copyright, etc.
 \usepackage{lipsum}         % Apenas para texto de exemplo (pode remover)
+\usepackage{placeins} 
 
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
@@ -20,7 +21,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setcopyright{none}
 \acmConference[COTB '25]{Computer on the Beach '25}{Abril 01--03, 2025}{Florianópolis, SC}
-\acmBooktitle{Anais do Computer on the Beach 2025 (COTB '25), Abril 01--03, 2025, Florianópolis, SC}
+\acmBooktitle{Proceeding of Computer on the Beach 2025 (COTB '25), Abril 01--03, 2025, Florianópolis, SC}
 \acmPrice{}
 \acmISBN{}
 \acmDOI{} 
@@ -28,25 +29,45 @@
 % --- METADADOS DO ARTIGO ---
 \title{Predição de Peso da Tilápia do Nilo por Meio do Fenótipo Usando Redes Neurais Convolucionais}
 
-\author{Henrique Yoshiharu Kajihara}
-\affiliation{
-  \institution{Universidade Estadual de Maringá (UEM)}
-  \streetaddress{Av. Colombo, 5790 - Bloco C56}
-  \city{Maringá}
-  \state{Paraná}
-  \country{Brasil}
-  \postcode{87020-900}
-}
-\email{henriqueykajihara@gmail.com} 
+%\author{Henrique Yoshiharu Kajihara}
+%\affiliation{
+%  \institution{Universidade Estadual de Maringá (UEM)}
+%  \streetaddress{Av. Colombo, 5790 - Bloco C56}
+%  \city{Maringá}
+%  \state{Paraná}
+%  \country{Brasil}
+%  \postcode{87020-900}
+%}
+%\email{henriqueykajihara@gmail.com} 
 
-\author{Josiane Melchiori Pinheiro}
+\author{Autor1 <omitido para revisão>}
 \affiliation{
-  \institution{Universidade Estadual de Maringá (UEM)}
-  \city{Maringá}
-  \state{Paraná}
+  \institution{Instituição <omitido para revisão>}
+  \streetaddress{Endereço <omitido para revisão>}
+  \city{Cidade}
+  \state{Estado <omitido para revisão>}
+  \country{Brasil}
+  \postcode{<omitido para revisão>}
+}
+\email{email <omitido para revisao>} 
+
+%\author{Josiane Melchiori Pinheiro}
+%\affiliation{
+%  \institution{Universidade Estadual de Maringá (UEM)}
+%  \city{Maringá}
+%  \state{Paraná}
+%  \country{Brasil}
+%}
+%\email{jmpferreira@uem.br}
+
+\author{Autor2 <omitido para revisão>}
+\affiliation{
+  \institution{Instituição <omitido para revisão>}
+  \city{Cidade}
+  \state{Estado <omitido para revisão>}
   \country{Brasil}
 }
-\email{jmpferreira@uem.br}
+\email{email <omitido para revisao>}
 
 % --- RESUMO / ABSTRACT ---
 \begin{abstract}
@@ -87,33 +108,33 @@ Biometric analysis in fish farms, such as weighing and measuring Nile tilapia, i
 
 \maketitle
 
-% --------------------------------------------------------------
 \section{Introdução}
-% --------------------------------------------------------------
-A tecnologia tem se tornado fundamental no agronegócio para otimização de custos e lucros. Na piscicultura da Tilápia do Nilo, a análise biométrica é crucial para acompanhar a evolução do cardume. Este manejo, no entanto, é quase inteiramente manual, exigindo a retirada dos peixes da água para medição e pesagem.
 
-Esse processo é altamente estressante para os animais \cite{Iwama1997}, causando alterações fisiológicas que levam à baixa imunidade, diminuição da taxa de crescimento e, em alguns casos, mortalidade \cite{Iwama1997, Barcellos2000}. Além de custoso e demorado, o método invasivo impacta diretamente o bem-estar animal e a produtividade. Segundo a Associação Brasileira de Psicultura, a tilápia representa aproximadamente 65\% da produção de peixes de cultivo no Brasil, que é o quarto maior produtor mundial dessa espécie \cite{PeixeBR2023}. Entre 2014 e 2023, a produção aquícola nacional saltou de 578{,}8 mil para 887{,}0 mil toneladas, um aumento superior a 50\%, o que torna ainda mais urgente a modernização das etapas de monitoramento zootécnico \cite{PeixeBR2023}.
+A utilização da tecnologia no agronegócio tem se tornado cada vez mais frequente, impulsionada pelo avanço de ferramentas inteligentes, sensores, georreferenciamento e métodos de análise automatizada. Esses recursos, frequentemente associados ao conceito de agricultura 4.0, têm proporcionado maior eficiência e precisão às etapas produtivas. No contexto da piscicultura, esse movimento tecnológico começa a ganhar força, especialmente no cultivo da Tilápia do Nilo, espécie de grande importância econômica para o Brasil.
 
-Do ponto de vista fisiológico, o estresse desencadeado pelo manejo é descrito em três níveis: efeitos primários, relacionados ao aumento de hormônios como catecolaminas e corticosteróides; efeitos secundários, que incluem alterações metabólicas em parâmetros como glicemia, glicogênio e ácido lático; e efeitos terciários, expressos em queda de desempenho produtivo, reprodutivo e maior susceptibilidade a doenças \cite{Iwama1997, Barcellos2000}. Em conjunto, esses efeitos reforçam que a minimização da manipulação física dos peixes não é apenas uma questão de conforto animal, mas também de eficiência produtiva.
+Segundo dados da Associação Brasileira de Psicultura (PeixeBR), o Brasil ocupa atualmente a quarta posição no ranking mundial de produção de tilápia, sendo responsável por aproximadamente 65\% da produção nacional de peixes cultivados. Entre 2014 e 2023, a produção aquícola nacional aumentou de 578.800 para 887.029 toneladas, representando um crescimento superior a 50\% no período \cite{PeixeBR2023}. Essa expansão evidencia a relevância da cadeia produtiva da tilápia e reforça a necessidade de aprimorar técnicas de manejo, monitoramento e tomada de decisão.
 
-Neste contexto, as Redes Neurais Convolucionais (CNNs) surgem como uma alternativa promissora. Este estudo propõe a aplicação de técnicas de \textit{Deep Learning} para estimar o peso de tilápias de forma automatizada e não intrusiva, a partir de imagens. O objetivo geral é reduzir o tempo de manejo e o estresse animal, implementando um algoritmo que realize a predição de peso de maneira rápida e eficaz. As imagens utilizadas foram cedidas por um estudo anterior focado em rendimento de carcaça \cite{Cardoso2021}.
+No manejo convencional, a biometria é uma etapa essencial para o acompanhamento do desenvolvimento dos peixes. Entretanto, tal processo ainda é majoritariamente manual, envolvendo a captura seletiva dos animais com tarrafa, manipulação direta, e muitas vezes o uso de sedativos para evitar que os peixes se debatem ou sofram lesões durante a pesagem \cite{Iwama1997, Barcellos2000}. Esse procedimento exige pelo menos três operadores e consome tempo, aumenta o risco de contaminação e gera estresse significativo nos peixes.
 
-Além do impacto direto na rotina de manejo, a automação da biometria pode contribuir com um uso mais racional de insumos, especialmente ração, ao permitir o ajuste fino de planos alimentares com base em estimativas de peso mais frequentes e menos dependentes de intervenção humana. Em um cenário de margens estreitas e alta competitividade, pequenas melhorias na eficiência de conversão alimentar podem representar ganhos financeiros significativos ao longo de um ciclo produtivo completo.
+O estresse fisiológico decorrente desse manejo é amplamente documentado na literatura zootécnica. Em \cite{Iwama1997} os autores descrevem três níveis de resposta: os efeitos primários, associados à liberação de hormônios como catecolaminas e corticosteróides; os efeitos secundários, que incluem mudanças metabólicas como aumento de glicose, redução de glicogênio e acúmulo de lactato; e os efeitos terciários, que afetam diretamente o desempenho produtivo, reduzindo o crescimento, enfraquecendo o sistema imunológico e aumentando a mortalidade \cite{Iwama1997, Barcellos2000}. Para sistemas de criação intensiva, esses impactos comprometem a sustentabilidade econômica e o bem-estar animal.
 
-A relevância da abordagem proposta também está alinhada com demandas contemporâneas por sistemas produtivos mais éticos e sustentáveis. Métodos de biometria menos invasivos favorecem o bem-estar animal e podem apoiar processos de certificação, agregando valor ao produto final. Ao mesmo tempo, o uso de visão computacional e IA aproxima a piscicultura de conceitos de agricultura 4.0, abrindo espaço para integrações futuras com sensores, sistemas embarcados e plataformas de monitoramento em tempo real.
+Nesse cenário, métodos automatizados e não invasivos de estimativa de peso tornam-se alternativas altamente promissoras. Abordagens baseadas em visão computacional permitem reduzir drasticamente a manipulação física dos peixes, minimizando o estresse e tornando o processo mais rápido e eficiente. Modelos de aprendizado de máquina e, em especial, Redes Neurais Convolucionais (CNNs - \textit{Convolutional Neural Network}) têm se destacado pela capacidade de extrair padrões relevantes diretamente das imagens, alcançando performances superiores a métodos tradicionais baseados em regressões manuais \cite{RussellNorvig2016, Mitchell1997}.
 
-Dessa forma, este trabalho se insere na interseção entre Inteligência Artificial, visão computacional e produção animal, investigando a viabilidade de um modelo de CNN para predição de peso de Tilápia do Nilo a partir de imagens obtidas em ambiente experimental, mas com características próximas da realidade de campo.
+Além da melhora produtiva, a adoção dessas tecnologias favorece práticas mais éticas e sustentáveis, atendendo às exigências de consumidores e mercados que valorizam responsabilidade socioambiental \cite{Domingos2015}. A modernização da piscicultura por meio da automação e da inteligência artificial permite aprimorar o uso de insumos, melhorar a precisão do manejo e reduzir a mortalidade associada ao estresse da manipulação convencional.
+
+Diante desse cenário, este trabalho investiga o uso de Redes Neurais Convolucionais (CNNs) para a predição do peso da Tilápia do Nilo por meio de imagens do fenótipo. Utilizando um banco de dados real coletado em ambiente experimental, busca-se avaliar a viabilidade de um sistema automatizado capaz de substituir parte do manejo biométrico tradicional, contribuindo para a evolução tecnológica da piscicultura em direção a processos mais eficientes, seguros e sustentáveis.
+
 
 % --------------------------------------------------------------
 \section{Trabalhos Relacionados}
 % --------------------------------------------------------------
-A aplicação de visão computacional para estimar características fenotípicas não é nova, mas sua aplicação em piscicultura é menos explorada.
+A aplicação de visão computacional para estimar características fenotípicas não é uma abordagem nova, mas sua aplicação em piscicultura é menos explorada.
 
 Ma et al. \cite{Ma2024} revisaram mais de 70 pesquisas sobre o uso de aprendizado de máquina (incluindo regressão linear e redes neurais) em imagens 2D e 3D para estimar o peso de suínos e bovinos. Eles destacam que a abordagem reduz o estresse animal e permite a coleta massiva de dados, alcançando erros percentuais tão baixos quanto 4,87\% em alguns casos. No entanto, apontam desafios como a necessidade dos animais permanecerem parados para imagens 3D e o alto custo de sensores de boa qualidade.
 
 Lee, Lee e Cho \cite{Lee2023} utilizaram redes neurais profundas em imagens 2D para estimar o peso de bovinos. O estudo comparou métodos de segmentação, utilizando Mask R-CNN (segmentação totalmente supervisionada) e alcançando uma margem de erro de 5,06\% em um conjunto de 43 animais.
 
-Inspirado por esses avanços, este trabalho aplica técnicas similares de redes neurais profundas ao estudo de tilápias, adaptando as estratégias para os desafios específicos da piscicultura.
+Inspirado por esses avanços, este trabalho aplica técnicas similares de redes neurais profundas para previsão do peso das tilápias a partir de imagens, adaptando as estratégias para os desafios específicos da piscicultura.
 
 Apesar dos resultados promissores em suínos e bovinos, observa-se uma lacuna quando se trata de espécies aquáticas. A maior parte dos trabalhos ainda se concentra em ambientes controlados, com câmeras e sensores dedicados, o que dificulta a transferência direta dessas soluções para a realidade de sistemas aquícolas de baixo custo. Além disso, contribuições como a de Cardoso et al. \cite{Cardoso2021} exploram análise de imagens para estimativa de rendimento de carcaça, mas não abordam explicitamente a predição de peso a partir de CNNs. Assim, o presente estudo contribui ao explorar um cenário intermediário, em que se utilizam imagens coletadas em ambiente experimental realista, com iluminação e posicionamento não totalmente padronizados, aproximando-se das condições encontradas por produtores.
 
@@ -123,9 +144,9 @@ Apesar dos resultados promissores em suínos e bovinos, observa-se uma lacuna qu
 O desenvolvimento foi conduzido em etapas sistemáticas, desde a aquisição dos dados até a avaliação do modelo.
 
 \subsection{Materiais e Ambiente}
-\textbf{Banco de Imagens:} Foram utilizadas 5975 imagens no formato JPG de 1195 tilápias (5 imagens de cada animal em ângulos diversos). Os dados foram obtidos na base experimental da PEIXEGEN/UEM, provenientes do estudo de Cardoso et al. \cite{Cardoso2021} e possuem aprovação da Comissão de Ética no Uso de Animais (CEUA/UEM). As imagens originais foram capturadas com fundo azul uniforme e uma régua de 30 cm imediatamente abaixo dos peixes, permitindo a utilização da escala como referência de tamanho. O estudo de origem empregou imagens RGB e em profundidade para estimar rendimento de filé \cite{Cardoso2021}, porém, neste trabalho foram utilizadas apenas as imagens RGB.
+\textbf{Banco de Imagens:} foram utilizadas 5975 imagens no formato JPG de 1195 tilápias (5 imagens de cada animal em ângulos diversos). Os dados foram obtidos na base experimental da <omitido para revisão>, provenientes do estudo de Cardoso et al. \cite{Cardoso2021} e possuem aprovação da Comissão de Ética no Uso de Animais (CEUA/<omitido para revisão>). As imagens originais foram capturadas com fundo azul uniforme e uma régua de 30 cm imediatamente abaixo dos peixes, permitindo a utilização da escala como referência de tamanho. O estudo de origem empregou imagens RGB e em profundidade para estimar o rendimento de filé \cite{Cardoso2021}. Neste trabalho foram utilizadas apenas as imagens RGB.
 
-A Figura~\ref{fig:coleta} ilustra o processo de coleta das tilápias para registro das imagens, em ambiente de campo, enquanto a Figura~\ref{fig:exemplar_tilapia} apresenta um exemplo de imagem bruta utilizada como entrada da CNN, evidenciando o padrão de fundo e referência de escala adotados.
+A Figura~\ref{fig:coleta} ilustra o processo de coleta das tilápias para registro das imagens, em ambiente de campo, enquanto a Figura~\ref{fig:exemplar_tilapia} apresenta um exemplo de imagem bruta utilizada como entrada da CNN, evidenciando o padrão de fundo e a referência de escala adotados.
 
 \begin{figure}[h]
 \centering
@@ -143,15 +164,25 @@ A Figura~\ref{fig:coleta} ilustra o processo de coleta das tilápias para regist
 \Description{Tilápia posicionada sobre um fundo azul com uma régua de 30 cm logo abaixo, representando o padrão de captura das imagens usadas no experimento.}
 \end{figure}
 
-\textbf{Ferramentas:} O modelo foi implementado em Python 3.12, utilizando TensorFlow 2.18.0, OpenCV, Pandas e Matplotlib. Essas bibliotecas foram escolhidas por oferecerem suporte consolidado à construção de redes neurais profundas, processamento de imagens e visualização de resultados.
+\textbf{Ferramentas:} o modelo foi implementado em Python 3.12, utilizando TensorFlow 2.18.0, OpenCV, Pandas e Matplotlib. Essas bibliotecas foram escolhidas por oferecerem suporte consolidado à construção de redes neurais profundas, processamento de imagens e visualização de resultados.
 
-\textbf{Ambiente Experimental:} Os experimentos foram executados em um computador com processador Intel Core i7-12650H e 32 GB de RAM DDR4. Não foi utilizada GPU dedicada, o que motivou a adoção de uma arquitetura de CNN de complexidade moderada, visando equilibrar desempenho e custo computacional.
+\textbf{Ambiente experimental:} os experimentos foram executados em um computador com processador Intel Core i7-12650H e 32 GB de RAM DDR4. Não foi utilizada GPU dedicada, o que motivou a adoção de uma arquitetura de CNN de complexidade moderada, visando equilibrar desempenho e custo computacional.
 
-\textbf{Análise exploratória das imagens:} Antes do treinamento, foi realizada uma inspeção visual das imagens e dos metadados associados, com o objetivo de identificar padrões de iluminação, variações de enquadramento e presença de reflexos. Observou-se que, embora o cenário de captura fosse controlado (fundo azul e régua fixa), havia variações relevantes na posição dos peixes em relação à câmera e na incidência de luz, fatores que impactaram diretamente a qualidade do pré-processamento e a estabilidade do treinamento.
+\textbf{Análise exploratória das imagens:} antes do treinamento, foi realizada uma inspeção visual das imagens e dos metadados associados, com o objetivo de identificar padrões de iluminação, variações de enquadramento e presença de reflexos. Observou-se que, embora o cenário de captura fosse controlado (fundo azul e régua fixa), havia variações relevantes na posição dos peixes em relação à câmera e na incidência de luz, fatores que impactaram diretamente a qualidade do pré-processamento e a estabilidade do treinamento.
 
-\textbf{Preparação dos rótulos:} Os pesos das tilápias variavam em uma faixa aproximada entre 400 g e 2000 g. Para facilitar o treinamento e reduzir a sensibilidade a diferenças de escala, os valores foram normalizados por meio de uma transformação do tipo \textit{min-max}. Essa normalização contribuiu para gradientes mais estáveis nas primeiras épocas, facilitando a convergência dos otimizadores Adam e Nadam.
+\textbf{Preparação dos rótulos:} os pesos das tilápias variavam em uma faixa aproximada entre 400g e 2000g. Para facilitar o treinamento e reduzir a sensibilidade a diferenças de escala, os valores foram normalizados por meio de uma transformação do tipo \textit{min-max}. Essa normalização contribuiu para gradientes mais estáveis nas primeiras épocas, facilitando a convergência dos otimizadores Adam e Nadam.
 
-\textbf{Divisão dos conjuntos de dados:} A divisão entre treino e teste foi realizada de forma a garantir que um mesmo indivíduo (peixe) não aparecesse simultaneamente em ambos os conjuntos. Dessa forma, cada peixe contribuiu com todas as suas imagens para apenas uma partição, reduzindo o risco de vazamento de informação. O conjunto de treinamento foi composto por 1000 peixes (5000 imagens) e o conjunto de teste por 195 peixes (975 imagens), preservando a diversidade de pesos em ambas as partições.
+\textbf{Divisão dos conjuntos de dados:} a separação entre os conjuntos de treino e teste foi realizada de forma aleatória, assegurando a independência entre as amostras utilizadas para aprendizagem e avaliação do modelo. Para evitar vazamento de informação, cada indivíduo (peixe) teve todas as suas imagens alocadas integralmente a apenas uma das partições. O conjunto de treinamento foi composto por 1000 peixes (5000 imagens) e o conjunto de teste por 195 peixes (975 imagens), preservando a diversidade de pesos em ambas as partições.
+
+\subsection{Forma de Aprendizagem Utilizada}
+
+O presente trabalho utiliza um modelo baseado em \textbf{aprendizado supervisionado}, no qual cada imagem de entrada possui um rótulo associado, correspondente ao peso real da tilápia registrado no momento da biometria. De acordo com Mitchell (1997) e Russell e Norvig (2016), o aprendizado supervisionado consiste em treinar um modelo para aprender uma função que mapeia entradas para saídas com base em exemplos rotulados, sendo amplamente utilizado em tarefas de regressão como a proposta neste estudo.
+
+O fluxo completo do modelo segue exatamente o padrão descrito na monografia: uma etapa de \textbf{entrada} com imagens no formato $128 \times 128 \times 3$ (RGB); um \textbf{processamento} intermediário composto por camadas convolucionais e de pooling que extraem características visuais importantes; e uma \textbf{saída} constituída por um único valor contínuo representando a estimativa de peso da tilápia.
+
+A escolha pelo aprendizado supervisionado se justifica porque o conjunto de dados possui medidas precisas de peso, permitindo o uso de métricas como MAE (\textit{Mean Absolute Error}) e $R^2$ (Coeficiente de Determinação), que facilitam a avaliação do desempenho do modelo. Esse tipo de abordagem também é consistente com estudos semelhantes, como os de Zhang et al. (2021)\cite{Zhang2021}, que utilizaram regressão supervisionada para estimar peso em suínos a partir de imagens .
+
+\vspace{0.3cm}
 
 \subsection{Arquitetura do Modelo Proposto}
 Foi desenvolvida uma CNN para regressão, projetada para processar imagens de entrada de $128 \times 128 \times 3$ pixels (RGB). A arquitetura, resumida na Tabela \ref{tab:arquitetura}, foi baseada em estudos de visão computacional para tarefas similares.
@@ -193,28 +224,54 @@ Saída (Regressão)& 1 neurônio                      & Linear      \\
 \end{tabular}
 \end{table}
 
-As camadas convolucionais extraem características visuais, enquanto as camadas de \textit{pooling} reduzem a dimensionalidade espacial. Regularização L2 foi aplicada às camadas densas e \textit{Dropout} foi usado para mitigar \textit{overfitting}. A opção por uma arquitetura relativamente compacta também se justifica pela ausência de GPU no ambiente experimental, tornando inviável, neste momento, o uso de modelos significativamente mais profundos, como ResNets ou EfficientNets \cite{Goodfellow2016}.
+As camadas convolucionais extraem características visuais, enquanto as camadas de \textit{pooling} reduzem a dimensionalidade espacial. A Regularização L2 foi aplicada às camadas densas e o \textit{Dropout} foi usado para mitigar \textit{overfitting}. A opção por uma arquitetura relativamente compacta também se justifica pela ausência de GPU no ambiente experimental, tornando inviável, neste momento, o uso de modelos significativamente mais profundos, como ResNets ou EfficientNets \cite{Goodfellow2016}.
 
-\subsection{Treinamento e Execução}
-\textbf{Função de Perda e Otimização:} Utilizou-se o Erro Absoluto Médio (MAE) como função de perda, por ser diretamente interpretável em termos de gramas de diferença entre o peso real e o predito. Foram testados comparativamente os otimizadores \textbf{Adam} e \textbf{Nadam}.
+\subsection{Detalhes da Rede Neural Convolucional}
 
-\textbf{Scheduler de taxa de aprendizado:} Foi adotada uma estratégia de redução dinâmica da taxa de aprendizado, de forma que, após determinado número de épocas sem melhora na métrica de validação, a taxa fosse reduzida em um fator de 0,1, permitindo um refinamento mais preciso dos pesos nas etapas finais de treinamento.
+A CNN desenvolvida foi projetada especificamente para processar dados estruturados em grade, como imagens RGB de tilápias, seguindo os fundamentos clássicos apresentados por Goodfellow et al. (2016) e Mitchell (1997). As CNNs são compostas por camadas interconectadas capazes de extrair características hierárquicas — desde padrões simples, como bordas, até estruturas mais complexas, como formas e regiões anatômicas do peixe .
 
-\textbf{Aumento de Dados (Data Augmentation):} Devido ao banco de dados limitado, um \texttt{ImageDataGenerator} foi usado para criar variações artificiais das imagens (rotação, zoom, \textit{flip}), ampliando dinamicamente o conjunto de treino. Em termos práticos, isso significa que, em um treinamento com 20 épocas, o modelo pôde ser exposto, de forma virtual, a um número de amostras muito superior ao número de imagens originalmente rotuladas.
+A arquitetura adotada é composta por quatro camadas convolucionais, cada uma seguida de uma camada \textit{MaxPooling}. Os filtros utilizados tiveram tamanhos de $3 \times 3$, com quantidades crescentes (32, 64, 128 e 256), conforme recomendado pela literatura para captar gradualmente padrões mais complexos nas imagens.
 
-\textbf{Conjunto de Dados:} O modelo foi treinado com 5.000 imagens (1.000 peixes) e avaliado em um conjunto de teste independente de 975 imagens (195 peixes).
+Após a etapa convolucional, a camada \textit{Flatten} transforma o mapa de características em um vetor unidimensional que alimenta um bloco denso composto por três camadas totalmente conectadas (512, 256 e 128 neurônios) com ativação \textit{ReLU} e regularização via \textit{Dropout}. A camada de saída possui ativação linear, apropriada para tarefas de regressão.
 
-\textbf{Experimentos:} Foram realizados quatro experimentos principais, variando o otimizador (Adam/Nadam) e o uso (ou não) de um \textit{pipeline} de pré-processamento de imagens com OpenCV. Em todos os casos, o estado interno dos modelos era reinicializado entre execuções, garantindo independência entre experimentos e maior confiabilidade na comparação das configurações.
+A função de ativação \textit{ReLU} foi utilizada para introduzir não linearidade e permitir que a rede capture relações complexas entre as características extraídas das imagens. Já o \textit{MaxPooling} otimiza o processamento ao reduzir as dimensões espaciais e manter apenas as características principais .
 
+
+\subsection{Treinamento e Estratégia de Otimização}
+
+O processo de treino adotou o \textbf{Erro Absoluto Médio (MAE)} como função de perda, por ser uma métrica amplamente utilizada em problemas de regressão e por permitir interpretação direta em unidades físicas do problema.
+
+Foram avaliados dois otimizadores: \textbf{Adam} e \textbf{Nadam}. O Adam é conhecido pela boa estabilidade e capacidade de lidar com gradientes ruidosos, enquanto o Nadam incorpora o \textit{Nesterov Accelerated Gradient}, o que proporciona maior suavidade na convergência e melhor desempenho em casos específicos, .o que pode proporcionar maior suavidade na convergência e ganhos de desempenho em determinadas configurações.
+
+Além disso, foi adotada uma estratégia de redução dinâmica da taxa de aprendizado após 50 épocas, aplicando um fator de 0,1 para permitir refinamentos finais do modelo. Esse mecanismo de controle da taxa de aprendizado ajudou a estabilizar a curva de treinamento e evitar oscilações nas últimas épocas.
+
+Para mitigar o tamanho relativamente limitado do banco de imagens, foi utilizado aumento de dados (\textit{data augmentation}) incluindo rotações, zoom, translações e espelhamentos horizontais . Essa estratégia ampliou significativamente a variedade de exemplos vistos pela rede, contribuindo para maior capacidade de generalização.
+
+Por fim, o fluxo geral do modelo segue três etapas fundamentais: (1) entrada das imagens originais em formato .jpg, apenas ajustadas ao formato de entrada da rede neural; (2) extração de características via convoluções e \textit{pooling}; e (3) regressão do peso pelas camadas densas.
 % --------------------------------------------------------------
-\section{Resultados e Discussão}
+\section{Resultados obtidos}
 % --------------------------------------------------------------
-As métricas de avaliação primárias foram o \textbf{Erro Absoluto Médio (MAE)} e o \textbf{Coeficiente de Determinação ($R^2$)}.
+\subsection{Pré-processamento}
+Embora as imagens tenham sido obtidas em um cenário parcialmente controlado (fundo azul e régua de referência), foi avaliado um \textit{pipeline} de pré-processamento como etapa complementar, com o objetivo de padronizar as entradas e facilitar a extração de características visuais relevantes. Para isso, foram testadas operações com OpenCV, incluindo ajuste de brilho/contraste, conversão para o espaço HSV (\textit{Hue, Saturation, Value} - Matiz, Saturação e Valor) e aplicação de máscaras para tentativa de segmentação do animal. No entanto, a abordagem mostrou-se instável e, em diversos casos, comprometeu a integridade da região de interesse, motivo pelo qual os resultados reportados neste artigo priorizam os modelos treinados diretamente com as imagens originais.
 
-\subsection{Falha no Pré-processamento}
-Uma descoberta inicial significativa foi que o \textit{pipeline} de pré-processamento desenvolvido com OpenCV (incluindo ajuste de brilho, conversão HSV e aplicação de máscaras) não foi satisfatório.
 
-Como visto na Figura \ref{fig:preprocessamento}, o processo falhou em segmentar corretamente o peixe em muitas imagens, removendo informações essenciais (partes do peixe) ou falhando em remover o fundo. Isso foi atribuído à variabilidade de iluminação e reflexos nas imagens originais. Consequentemente, os modelos treinados com imagens pré-processadas tiveram desempenho drasticamente inferior, indicando que a CNN ``crua'' foi mais eficaz em lidar com os dados originais.
+Como ilustrado na Figura~\ref{fig:preprocessamento}, o \textit{pipeline} de pré-processamento mostrou-se falho para lidar com a variabilidade presente nas imagens, falhando em segmentar corretamente o peixe em um número significativo de casos. Em diversas situações, partes essenciais do animal foram removidas juntamente com o fundo, enquanto, em outras, o fundo não foi devidamente eliminado. Esses problemas foram atribuídos principalmente às variações de iluminação, aos reflexos na superfície corporal do peixe e às diferenças de posicionamento em relação à câmera. Como consequência direta dessas falhas, os modelos treinados com imagens pré-processadas apresentaram desempenhos significativamente inferiores, indicando que a CNN treinada diretamente com as imagens originais foi mais eficaz em lidar com a complexidade e a variabilidade dos dados.
+
+A Tabela~\ref{tab:pior_preprocessamento} apresenta os melhores desempenhos obtidos com a aplicação de técnicas de pré-processamento das imagens. Observa-se que, mesmo nas configurações mais favoráveis, os valores de erro médio absoluto (MAE) permaneceram elevados e o coeficiente de determinação ($R^2$) foi inferior ao observado nos modelos treinados diretamente com as imagens originais, indicando que o pré-processamento não contribuiu para a melhoria do desempenho e limitou a capacidade de generalização do modelo.
+
+\begin{table}[h]
+\caption{Melhores resultados obtidos com uso de pré-processamento das imagens.}
+\label{tab:pior_preprocessamento}
+\centering
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Otimizador} & \textbf{Épocas} & \textbf{Semente} & \textbf{MAE (g)} & \textbf{$R^2$} \\
+\midrule
+Adam  & 40 & 30  & 61{,}56 & 0{,}94 \\
+Nadam & 20 & 100 & 256{,}46 & 0{,}12 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[h]
 \centering
@@ -226,7 +283,7 @@ Como visto na Figura \ref{fig:preprocessamento}, o processo falhou em segmentar 
 \end{figure}
 
 \subsection{Resultados dos Modelos}
-Os melhores resultados foram consistentemente obtidos sem o pré-processamento. A Tabela \ref{tab:resultados_comparativos} sumariza os melhores desempenhos encontrados para os otimizadores Adam e Nadam (sem pré-processamento).
+Os melhores resultados foram consistentemente obtidos sem o pré-processamento. A Tabela \ref{tab:resultados_comparativos} sumariza os melhores desempenhos encontrados para os otimizadores Adam e Nadam.
 
 \begin{table}[h]
 \caption{Melhores resultados obtidos (sem pré-processamento).}
@@ -244,7 +301,8 @@ Nadam  & 50 & 20  & 48{,}12 & 0{,}96 \\
 \end{tabular}
 \end{table}
 
-O otimizador \textbf{Nadam} apresentou um desempenho ligeiramente superior, alcançando o melhor resultado geral com 30 épocas e semente 30: \textbf{MAE de 45,0 gramas} e \textbf{$R^2$ de 0{,}97}. Um erro médio de 45--50 g é considerado aceitável na prática de pesagem por amostragem.
+O otimizador \textbf{Nadam} apresentou desempenho ligeiramente superior ao Adam, alcançando o melhor resultado geral com 30 épocas e semente igual a 30, obtendo \textbf{MAE de 45,0 gramas} e \textbf{$R^2$ de 0{,}97}. 
+Neste contexto, o termo \textit{semente} refere-se ao valor utilizado para inicializar de forma determinística os geradores de números aleatórios do processo de treinamento, influenciando, entre outros fatores, a inicialização dos pesos da rede e a ordem de apresentação das amostras. A avaliação com diferentes sementes permite analisar a estabilidade do modelo e sua sensibilidade a variações estocásticas inerentes ao aprendizado.
 
 A Figura \ref{fig:grafico_resultado} ilustra a forte aderência entre os pesos reais e os pesos preditos pelo melhor modelo no conjunto de teste. Embora existam algumas discrepâncias, a maioria das predições segue de perto os valores reais.
 
@@ -256,6 +314,7 @@ A Figura \ref{fig:grafico_resultado} ilustra a forte aderência entre os pesos r
 \Description{Gráfico de linha mostrando duas séries de dados (Peso Real e Peso Predito) muito próximas, indicando alta acurácia do modelo. O eixo Y varia de 400 g a 2000 g.}
 \end{figure}
 
+\FloatBarrier
 \subsection{Análise detalhada dos erros}
 Uma análise complementar da distribuição dos erros absolutos mostrou que a maior parte das predições se concentra em uma faixa inferior a 60 g de diferença em relação ao peso real, com poucos \textit{outliers} acima de 100 g. Ao inspecionar qualitativamente tais casos, verificou-se que boa parte deles estava associada a imagens com reflexos muito intensos na pele do peixe, inclinações acentuadas ou enquadramento parcial do corpo, o que sugere que a CNN depende fortemente da integridade da silhueta para realizar estimativas mais precisas.
 
@@ -266,16 +325,16 @@ Além disso, observou-se uma leve tendência de superestimação dos pesos em an
 \subsection{Curvas de aprendizado e estabilidade dos otimizadores}
 As curvas de aprendizado revelaram convergência relativamente rápida nas primeiras épocas, seguida por um \textit{plateau} nas etapas finais. Em algumas configurações sem \textit{Dropout}, sinais de \textit{overfitting} começaram a aparecer com o aumento do número de épocas, reforçando a importância do uso combinado de regularização L2 e \textit{Dropout} nas camadas densas.
 
-Comparando Adam e Nadam, este último apresentou trajetórias de perda mais suaves e estabilidade superior em cenários com maior variabilidade luminosa, o que está em linha com a literatura sobre o uso de gradiente acelerado de Nesterov em superfícies de perda não convexas \cite{Ruder2016}. Em particular, o Nadam mostrou-se menos sensível a escolhas específicas de semente de inicialização, produzindo resultados mais consistentes entre diferentes execuções.
+Comparando os otimizadores Adam e Nadam, este último apresentou trajetórias de perda mais suaves e estabilidade superior em cenários com maior variabilidade luminosa, o que está em linha com a literatura sobre o uso de gradiente acelerado de Nesterov em superfícies de perda não convexas \cite{Ruder2016}. Em particular, o Nadam mostrou-se menos sensível a escolhas específicas de semente de inicialização, produzindo resultados mais consistentes entre diferentes execuções.
 
 \subsection{Discussão}
 O desempenho superior do Nadam sobre o Adam pode ser atribuído à sua combinação do Adam com o \textit{Nesterov Accelerated Gradient} (NAG) \cite{Ruder2016}. O Nadam antecipa a direção do gradiente, o que proporciona maior estabilidade em superfícies de perda ruidosas, como as geradas pela variabilidade de iluminação e posicionamento das tilápias nos dados de treino.
 
-\textbf{Comparação com o manejo tradicional:} Quando comparado ao processo manual de pesagem por amostragem, que exige, no mínimo, dois operadores, equipamentos específicos e, em alguns casos, sedação, o modelo proposto oferece um ganho potencial em termos de segurança, tempo e bem-estar animal. Ainda que a solução atual exija a captura do peixe para obtenção da imagem, abre-se caminho para futuramente integrar o modelo a sistemas de captura automática de imagens, inclusive subaquáticas, reduzindo mais ainda a intervenção humana.
+\textbf{Comparação com o manejo tradicional:} quando comparado ao processo manual de pesagem por amostragem, que exige, no mínimo, dois operadores, equipamentos específicos e, em alguns casos, sedação, o modelo proposto oferece um ganho potencial em termos de segurança, tempo e bem-estar animal. Ainda que a solução atual exija a captura do peixe para obtenção da imagem, abre-se caminho para futuramente integrar o modelo a sistemas de captura automática de imagens, inclusive subaquáticas, reduzindo ainda mais a intervenção humana.
 
-\textbf{Impacto na cadeia produtiva:} Em um cenário de produção intensiva, estimativas de peso mais frequentes permitem ajustes finos na taxa de arraçoamento e na densidade de estocagem, com impacto direto em custos de ração e sanidade. Um sistema baseado neste modelo poderia, por exemplo, ser acoplado a uma esteira de classificação ou a um módulo de triagem automática, fornecendo estimativas em tempo quase real para apoio à tomada de decisão.
+\textbf{Impacto na cadeia produtiva:} em um cenário de produção intensiva, estimativas de peso mais frequentes permitem ajustes finos na taxa de arraçoamento\footnote{Arraçoamento de peixes é a alimentação controlada e estratégica na piscicultura, visando o crescimento uniforme e a saúde dos peixes, fornecendo a ração correta, na quantidade certa, no momento certo e distribuída por todo o tanque para evitar competição e garantir que todos comam, ajustando a frequência e porção conforme idade, espécie e temperatura da água para otimizar a conversão alimentar e o desenvolvimento.} e na densidade de estocagem, com impacto direto em custos de ração e sanidade dos peixes. Um sistema baseado neste modelo poderia, por exemplo, ser acoplado a uma esteira de classificação ou a um módulo de triagem automática, fornecendo estimativas em tempo quase real para apoio à tomada de decisão.
 
-\textbf{Limitações observadas:} Entre as principais limitações do trabalho destacam-se: (i) a ausência de variáveis físicas adicionais (como comprimento corporal) como entradas do modelo, (ii) a heterogeneidade das condições de iluminação e enquadramento das imagens, que prejudicou o pré-processamento, e (iii) o tamanho relativamente limitado da base em termos de diversidade de cenários de captura. Esses fatores indicam que, embora os resultados sejam encorajadores, ainda é necessário validar a abordagem em bancos de dados maiores, mais variados e coletados em diferentes ambientes de produção, de modo a descartar a possibilidade de um \textit{falso positivo} em termos de generalização.
+\textbf{Limitações observadas:} entre as principais limitações do trabalho destacam-se: (i) a ausência de variáveis físicas adicionais (como comprimento corporal) como entradas do modelo, (ii) a heterogeneidade das condições de iluminação e enquadramento das imagens, que prejudicou o pré-processamento, e (iii) o tamanho relativamente limitado da base em termos de diversidade de cenários de captura. Esses fatores indicam que, embora os resultados sejam encorajadores, ainda é necessário validar a abordagem em bancos de dados maiores, mais variados e coletados em diferentes ambientes de produção, de modo a descartar a possibilidade de uma \textit{generalização ilusória}.
 
 % --------------------------------------------------------------
 \section{Conclusão e Trabalhos Futuros}
@@ -289,7 +348,7 @@ Como trabalhos futuros, sugerimos:
     \item Investigar métodos menos invasivos de obtenção de imagem (ex.: câmeras subaquáticas), eliminando a necessidade de remover o peixe da água e aproximando o sistema de um cenário de monitoramento contínuo.
     \item Integrar outras variáveis de entrada no modelo (ex.: comprimento e largura do peixe) para uma predição multimodal, combinando informações morfométricas explícitas com características extraídas automaticamente pelas CNNs.
     \item Explorar arquiteturas mais avançadas, como Redes Residuais (ResNets) e modelos leves (MobileNet, EfficientNet), bem como técnicas de \textit{Transfer Learning}, de forma a avaliar o ganho de desempenho em comparação à arquitetura atual.
-    \item Validar o modelo em bancos de dados maiores e mais diversificados, coletados em diferentes sistemas de produção e sob variadas condições de iluminação, para garantir a generalização e descartar a possibilidade de um falso positivo.
+    \item Validar o modelo em bancos de dados maiores e mais diversificados, coletados em diferentes sistemas de produção e sob variadas condições de iluminação, para garantir a generalização e descartar a possibilidade de uma superestimação do desempenho.
     \item Investigar o uso de módulos de segmentação ou detecção de pontos anatômicos, capazes de isolar o contorno corporal da tilápia, reduzindo a influência de reflexos e ruídos de fundo sobre as predições.
 \end{itemize}
 
@@ -298,6 +357,15 @@ Além dessas perspectivas, a implementação de técnicas de \textit{Transfer Le
 Do ponto de vista prático, recomenda-se, ainda, o avanço em diretrizes de captura de imagens em campo, como padronização de distância da câmera, controle básico de iluminação e manutenção de um fundo contrastante. Esses cuidados simples podem melhorar significativamente a qualidade das predições sem exigir modificações profundas na arquitetura da rede.
 
 A automação desse processo tem potencial para melhorar significativamente o manejo na piscicultura, reduzindo custos, promovendo o bem-estar animal e aumentando a eficiência produtiva. Ao aproximar a tilapicultura de práticas de agricultura digital, este trabalho contribui com uma base experimental sólida sobre a qual soluções mais completas e integradas podem ser construídas nos próximos anos.
+
+% --------------------------------------------------------------
+%                   AGRADECIMENTOS
+% --------------------------------------------------------------
+\section*{Agradecimentos}
+
+\indent Agradecemos ao núcleo <omitido para revisão> pela disponibilização das imagens utilizadas neste estudo.  
+Essas imagens foram essenciais para o desenvolvimento deste trabalho, permitindo treinar, validar e analisar os modelos de predição de peso das tilápias com rigor e confiabilidade.  
+Reconhecemos a importância da parceria e do suporte fornecido, que contribuíram de forma significativa para a realização desta pesquisa.
 
 % --------------------------------------------------------------
 %                 BIBLIOGRAFIA
