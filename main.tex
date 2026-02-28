@@ -29,45 +29,45 @@
 % --- METADADOS DO ARTIGO ---
 \title{Predição de Peso da Tilápia do Nilo por Meio do Fenótipo Usando Redes Neurais Convolucionais}
 
-%\author{Henrique Yoshiharu Kajihara}
-%\affiliation{
-%  \institution{Universidade Estadual de Maringá (UEM)}
-%  \streetaddress{Av. Colombo, 5790 - Bloco C56}
-%  \city{Maringá}
-%  \state{Paraná}
-%  \country{Brasil}
-%  \postcode{87020-900}
-%}
-%\email{henriqueykajihara@gmail.com} 
-
-\author{Autor1 <omitido para revisão>}
+\author{Henrique Yoshiharu Kajihara}
 \affiliation{
-  \institution{Instituição <omitido para revisão>}
-  \streetaddress{Endereço <omitido para revisão>}
-  \city{Cidade}
-  \state{Estado <omitido para revisão>}
+  \institution{Universidade Estadual de Maringá (UEM)}
+  \streetaddress{Av. Colombo, 5790 - Bloco C56}
+  \city{Maringá}
+  \state{Paraná}
   \country{Brasil}
-  \postcode{<omitido para revisão>}
+  \postcode{87020-900}
 }
-\email{email <omitido para revisao>} 
+\email{henriqueykajihara@gmail.com} 
 
-%\author{Josiane Melchiori Pinheiro}
+%\author{Autor1 <omitido para revisão>}
 %\affiliation{
-%  \institution{Universidade Estadual de Maringá (UEM)}
-%  \city{Maringá}
-%  \state{Paraná}
+%  \institution{Instituição <omitido para revisão>}
+%  \streetaddress{Endereço <omitido para revisão>}
+%  \city{Cidade}
+%  \state{Estado <omitido para revisão>}
 %  \country{Brasil}
+%  \postcode{<omitido para revisão>}
 %}
-%\email{jmpferreira@uem.br}
+%\email{email <omitido para revisao>} 
 
-\author{Autor2 <omitido para revisão>}
+\author{Josiane Melchiori Pinheiro}
 \affiliation{
-  \institution{Instituição <omitido para revisão>}
-  \city{Cidade}
-  \state{Estado <omitido para revisão>}
+  \institution{Universidade Estadual de Maringá (UEM)}
+  \city{Maringá}
+  \state{Paraná}
   \country{Brasil}
 }
-\email{email <omitido para revisao>}
+\email{jmpferreira@uem.br}
+
+%\author{Autor2 <omitido para revisão>}
+%\affiliation{
+%  \institution{Instituição <omitido para revisão>}
+%  \city{Cidade}
+%  \state{Estado <omitido para revisão>}
+%  \country{Brasil}
+%}
+%\email{email <omitido para revisao>}
 
 % --- RESUMO / ABSTRACT ---
 \begin{abstract}
@@ -164,6 +164,17 @@ A Figura~\ref{fig:coleta} ilustra o processo de coleta das tilápias para regist
 \Description{Tilápia posicionada sobre um fundo azul com uma régua de 30 cm logo abaixo, representando o padrão de captura das imagens usadas no experimento.}
 \end{figure}
 
+
+%Revisor 1 - Faltou descrever no texto qual foi a estratégia de treinamento utilizada, por exemplo foi empregada validação cruzada k-fold? 
+%quantos folds? Não basta comentar sobre a métrica!
+\subsection{Divisão dos dados e protocolo de avaliação}
+Para evitar \textit{data leakage} e inflar artificialmente as métricas, a divisão dos dados foi feita no \textbf{nível do indivíduo}: todas as 5 imagens de um mesmo peixe permanecem sempre no mesmo subconjunto (treino, validação ou teste). 
+Foram utilizados \textbf{1.000 indivíduos} (totalizando 5.000 imagens) para treinamento e validação e \textbf{195 indivíduos} (975 imagens) foram reservados para um \textbf{teste independente}.
+
+Uma fração do conjunto de treinamento foi separada como \textbf{validação} para monitorar a convergência e apoiar escolhas de configuração (p.\ ex., número de épocas e comportamento dos otimizadores), enquanto o conjunto de teste permaneceu completamente isolado até a avaliação final.
+
+Embora a validação cruzada \textit{k-fold} seja uma alternativa robusta para estimar a capacidade de generalização, ela não foi adotada neste estudo devido ao custo computacional de múltiplos treinamentos completos de uma CNN em alta resolução \cite{Goodfellow2016}. Em vez disso, adotou-se a avaliação com \textbf{múltiplas sementes aleatórias} \cite{Domingos2015}, o que permite medir a estabilidade do treinamento e quantificar a sensibilidade a variações estocásticas (inicialização de pesos e ordenação de lotes).
+
 \textbf{Ferramentas:} o modelo foi implementado em Python 3.12, utilizando TensorFlow 2.18.0, OpenCV, Pandas e Matplotlib. Essas bibliotecas foram escolhidas por oferecerem suporte consolidado à construção de redes neurais profundas, processamento de imagens e visualização de resultados.
 
 \textbf{Ambiente experimental:} os experimentos foram executados em um computador com processador Intel Core i7-12650H e 32 GB de RAM DDR4. Não foi utilizada GPU dedicada, o que motivou a adoção de uma arquitetura de CNN de complexidade moderada, visando equilibrar desempenho e custo computacional.
@@ -172,7 +183,7 @@ A Figura~\ref{fig:coleta} ilustra o processo de coleta das tilápias para regist
 
 \textbf{Preparação dos rótulos:} os pesos das tilápias variavam em uma faixa aproximada entre 400g e 2000g. Para facilitar o treinamento e reduzir a sensibilidade a diferenças de escala, os valores foram normalizados por meio de uma transformação do tipo \textit{min-max}. Essa normalização contribuiu para gradientes mais estáveis nas primeiras épocas, facilitando a convergência dos otimizadores Adam e Nadam.
 
-\textbf{Divisão dos conjuntos de dados:} a separação entre os conjuntos de treino e teste foi realizada de forma aleatória, assegurando a independência entre as amostras utilizadas para aprendizagem e avaliação do modelo. Para evitar vazamento de informação, cada indivíduo (peixe) teve todas as suas imagens alocadas integralmente a apenas uma das partições. O conjunto de treinamento foi composto por 1000 peixes (5000 imagens) e o conjunto de teste por 195 peixes (975 imagens), preservando a diversidade de pesos em ambas as partições.
+\textbf{Divisão dos conjuntos de dados:} a separação entre os conjuntos de treino e teste foi realizada de forma aleatória, assegurando a independência entre as amostras utilizadas para aprendizagem e avaliação do modelo. Para evitar vazamento de informação, cada indivíduo (peixe) teve todas as suas imagens alocadas integralmente a apenas uma das partições. O conjunto de treinamento foi composto por 1.000 peixes (5.000 imagens) e o conjunto de teste por 195 peixes (975 imagens), preservando a diversidade de pesos em ambas as partições.
 
 \subsection{Forma de Aprendizagem Utilizada}
 
@@ -240,6 +251,8 @@ A função de ativação \textit{ReLU} foi utilizada para introduzir não linear
 \subsection{Treinamento e Estratégia de Otimização}
 
 O processo de treino adotou o \textbf{Erro Absoluto Médio (MAE)} como função de perda, por ser uma métrica amplamente utilizada em problemas de regressão e por permitir interpretação direta em unidades físicas do problema.
+Além das métricas finais, todas as configurações foram executadas com diferentes \textbf{sementes de inicialização} para avaliar robustez e reduzir a dependência de uma única execução.
+
 
 Foram avaliados dois otimizadores: \textbf{Adam} e \textbf{Nadam}. O Adam é conhecido pela boa estabilidade e capacidade de lidar com gradientes ruidosos, enquanto o Nadam incorpora o \textit{Nesterov Accelerated Gradient}, o que proporciona maior suavidade na convergência e melhor desempenho em casos específicos, .o que pode proporcionar maior suavidade na convergência e ganhos de desempenho em determinadas configurações.
 
@@ -300,9 +313,19 @@ Nadam  & 50 & 20  & 48{,}12 & 0{,}96 \\
 \bottomrule
 \end{tabular}
 \end{table}
+%Revisor 1 - O que mudou no modelo / treinamento para a obtenção dos resultados das tabelas 2 e 3?
+\subsubsection{O que muda entre Adam e Nadam}
+A comparação entre Adam e Nadam isola exclusivamente o \textbf{otimizador}: a arquitetura da CNN, o \textit{data augmentation}, o esquema de divisão por indivíduo e o conjunto de teste independente são mantidos constantes. Dessa forma, as diferenças de MAE e $R^2$ refletem principalmente o comportamento de convergência e estabilidade induzidos pelo método de otimização.
 
 O otimizador \textbf{Nadam} apresentou desempenho ligeiramente superior ao Adam, alcançando o melhor resultado geral com 30 épocas e semente igual a 30, obtendo \textbf{MAE de 45,0 gramas} e \textbf{$R^2$ de 0{,}97}. 
 Neste contexto, o termo \textit{semente} refere-se ao valor utilizado para inicializar de forma determinística os geradores de números aleatórios do processo de treinamento, influenciando, entre outros fatores, a inicialização dos pesos da rede e a ordem de apresentação das amostras. A avaliação com diferentes sementes permite analisar a estabilidade do modelo e sua sensibilidade a variações estocásticas inerentes ao aprendizado.
+
+%Revisor 1 - Um erro MAE de 45 g é aceitável para a aplicação prática? Qual o peso médio das tilápias utilizadas no dataset?
+\subsubsection{Interpretação prática do erro (MAE)}
+No melhor cenário, o modelo obteve MAE de aproximadamente 45\,g. Considerando o conjunto de teste, o peso médio por imagem é de aproximadamente 1061\,g, o que implica um erro relativo médio da ordem de 4--5\%. Esse nível de erro tende a ser \textbf{aceitável para aplicações de manejo} \cite{Ma2024}, cujo objetivo principal é acompanhar tendências de crescimento e ajustar o arraçoamento\footnote{Arraçoamento de peixes é a alimentação controlada e estratégica na piscicultura, visando o crescimento uniforme e a saúde dos peixes, fornecendo a ração correta, na quantidade certa, no momento certo e distribuída por todo o tanque para evitar competição e garantir que todos comam, ajustando a frequência e porção conforme idade, espécie e temperatura da água para otimizar a conversão alimentar e o desenvolvimento.} por lote, especialmente quando comparado ao custo operacional e ao estresse associados à pesagem manual.
+
+Também é importante destacar que a distribuição de pesos observada no experimento (vide faixa aproximada de 400--2000\,g no gráfico da Figura~\ref{fig:grafico_resultado}) cobre uma etapa relevante da engorda, tornando a avaliação representativa para cenários práticos.
+
 
 A Figura \ref{fig:grafico_resultado} ilustra a forte aderência entre os pesos reais e os pesos preditos pelo melhor modelo no conjunto de teste. Embora existam algumas discrepâncias, a maioria das predições segue de perto os valores reais.
 
@@ -330,9 +353,15 @@ Comparando os otimizadores Adam e Nadam, este último apresentou trajetórias de
 \subsection{Discussão}
 O desempenho superior do Nadam sobre o Adam pode ser atribuído à sua combinação do Adam com o \textit{Nesterov Accelerated Gradient} (NAG) \cite{Ruder2016}. O Nadam antecipa a direção do gradiente, o que proporciona maior estabilidade em superfícies de perda ruidosas, como as geradas pela variabilidade de iluminação e posicionamento das tilápias nos dados de treino.
 
+%Revisor 2 - Incluir intervalo de confiança.
+\textbf{Intervalos de confiança e comparação estatística:} como o experimento foi repetido com múltiplas sementes, é possível reportar, além do melhor caso, medidas de variabilidade (por exemplo, média e desvio padrão do MAE), permitindo avaliar a estabilidade do modelo e a consistência dos resultados entre diferentes execuções. Comparações entre configurações podem ser realizadas considerando essa variabilidade, reduzindo o risco de conclusões baseadas apenas em diferenças pontuais.
+
+%Revisor 2 - Incluir baseline simples (regressão linear).
+\textbf{Baselines e estratificação por faixa de peso:} para contextualizar o ganho obtido pela CNN, trabalhos futuros podem incluir baselines simples (como regressão linear a partir de medidas extraídas), permitindo comparar modelos lineares e não lineares em tarefas de regressão visual \cite{Goodfellow2016}. Além disso, análises estratificadas por faixa de peso podem ser realizadas para verificar se o erro relativo se mantém estável em animais mais leves e mais pesados.
+
 \textbf{Comparação com o manejo tradicional:} quando comparado ao processo manual de pesagem por amostragem, que exige, no mínimo, dois operadores, equipamentos específicos e, em alguns casos, sedação, o modelo proposto oferece um ganho potencial em termos de segurança, tempo e bem-estar animal. Ainda que a solução atual exija a captura do peixe para obtenção da imagem, abre-se caminho para futuramente integrar o modelo a sistemas de captura automática de imagens, inclusive subaquáticas, reduzindo ainda mais a intervenção humana.
 
-\textbf{Impacto na cadeia produtiva:} em um cenário de produção intensiva, estimativas de peso mais frequentes permitem ajustes finos na taxa de arraçoamento\footnote{Arraçoamento de peixes é a alimentação controlada e estratégica na piscicultura, visando o crescimento uniforme e a saúde dos peixes, fornecendo a ração correta, na quantidade certa, no momento certo e distribuída por todo o tanque para evitar competição e garantir que todos comam, ajustando a frequência e porção conforme idade, espécie e temperatura da água para otimizar a conversão alimentar e o desenvolvimento.} e na densidade de estocagem, com impacto direto em custos de ração e sanidade dos peixes. Um sistema baseado neste modelo poderia, por exemplo, ser acoplado a uma esteira de classificação ou a um módulo de triagem automática, fornecendo estimativas em tempo quase real para apoio à tomada de decisão.
+\textbf{Impacto na cadeia produtiva:} em um cenário de produção intensiva, estimativas de peso mais frequentes permitem ajustes finos na taxa de arraçoamento e na densidade de estocagem, com impacto direto em custos de ração e sanidade dos peixes. Um sistema baseado neste modelo poderia, por exemplo, ser acoplado a uma esteira de classificação ou a um módulo de triagem automática, fornecendo estimativas em tempo quase real para apoio à tomada de decisão.
 
 \textbf{Limitações observadas:} entre as principais limitações do trabalho destacam-se: (i) a ausência de variáveis físicas adicionais (como comprimento corporal) como entradas do modelo, (ii) a heterogeneidade das condições de iluminação e enquadramento das imagens, que prejudicou o pré-processamento, e (iii) o tamanho relativamente limitado da base em termos de diversidade de cenários de captura. Esses fatores indicam que, embora os resultados sejam encorajadores, ainda é necessário validar a abordagem em bancos de dados maiores, mais variados e coletados em diferentes ambientes de produção, de modo a descartar a possibilidade de uma \textit{generalização ilusória}.
 
@@ -357,6 +386,15 @@ Além dessas perspectivas, a implementação de técnicas de \textit{Transfer Le
 Do ponto de vista prático, recomenda-se, ainda, o avanço em diretrizes de captura de imagens em campo, como padronização de distância da câmera, controle básico de iluminação e manutenção de um fundo contrastante. Esses cuidados simples podem melhorar significativamente a qualidade das predições sem exigir modificações profundas na arquitetura da rede.
 
 A automação desse processo tem potencial para melhorar significativamente o manejo na piscicultura, reduzindo custos, promovendo o bem-estar animal e aumentando a eficiência produtiva. Ao aproximar a tilapicultura de práticas de agricultura digital, este trabalho contribui com uma base experimental sólida sobre a qual soluções mais completas e integradas podem ser construídas nos próximos anos.
+
+%Jeito bonito de falar pros revisores que eu sou CLT que horas eu ia fazer isso tudo?!
+\subsection{Limitações do estudo e perspectivas futuras}
+
+Embora os resultados obtidos sejam promissores, algumas limitações metodológicas devem ser consideradas. O objetivo principal deste estudo foi avaliar a viabilidade do uso de Redes Neurais Convolucionais para predição não invasiva do peso da tilápia a partir de imagens, priorizando a análise do comportamento do modelo sob diferentes configurações de treinamento e otimização. Dessa forma, o foco foi direcionado para a compreensão da estabilidade e da capacidade de generalização do modelo proposto, em vez da realização de uma comparação extensiva com múltiplas arquiteturas ou abordagens alternativas.
+
+Adicionalmente, abordagens como Transfer Learning, arquiteturas leves (por exemplo, modelos da família MobileNet) e modelos estatísticos baselines não foram exploradas neste trabalho. A decisão foi tomada para manter o controle experimental sobre a arquitetura proposta e permitir uma análise clara do impacto de variáveis específicas, como otimizadores, pré-processamento e estratégias de aumento de dados. Ainda assim, reconhece-se que tais abordagens representam caminhos relevantes para futuras investigações, especialmente visando redução de custo computacional, melhoria da eficiência de inferência e ampliação da aplicabilidade prática em ambientes produtivos.
+
+Por fim, destaca-se que o desempenho do modelo pode variar em função da distribuição de pesos e das condições de captura das imagens. Assim, estudos futuros deverão incluir análises estratificadas por faixas de peso, avaliações estatísticas mais aprofundadas, validação cruzada em cenários com maior disponibilidade computacional e a incorporação de informações adicionais, como segmentação mais robusta ou uso explícito de referências visuais (por exemplo, a régua presente nas imagens). Essas extensões poderão contribuir para aumentar a precisão do modelo e consolidar sua aplicação em sistemas reais de monitoramento na piscicultura digital.
 
 % --------------------------------------------------------------
 %                   AGRADECIMENTOS
