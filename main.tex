@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %         ARQUIVO LATEX - ARTIGO TCC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[sigconf]{acmart}
+\documentclass[sigconf,nonacm]{acmart}
 
 % --- PACOTES ESSENCIAIS ---
 \usepackage[utf8]{inputenc} % Permite acentuação em português
@@ -10,7 +10,7 @@
 \usepackage{amsmath}        % Para símbolos matemáticos como R^2
 \usepackage{textcomp}       % Para símbolo de copyright, etc.
 \usepackage{lipsum}         % Apenas para texto de exemplo (pode remover)
-\usepackage{placeins} 
+\usepackage{placeins} \n\usepackage{fancyhdr}\n
 
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
@@ -20,14 +20,20 @@
 %         BLOCO DE COPYRIGHT - SBC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setcopyright{none}
-\acmConference[COTB '25]{Computer on the Beach '25}{Abril 01--03, 2025}{Florianópolis, SC}
-\acmBooktitle{Proceeding of Computer on the Beach 2025 (COTB '25), Abril 01--03, 2025, Florianópolis, SC}
-\acmPrice{}
+\settopmatter{printacmref=false}
+\settopmatter{runningheads=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+
+\acmConference[XVII Computer on the Beach]{16 a 18 de abril de 2026}{Florianópolis, SC, Brasil}
 \acmISBN{}
 \acmDOI{} 
 
 % --- METADADOS DO ARTIGO ---
 \title{Predição de Peso da Tilápia do Nilo por Meio do Fenótipo Usando Redes Neurais Convolucionais}
+
+% Remove autores do cabeçalho
+\renewcommand{\shortauthors}{}
+
 
 \author{Henrique Yoshiharu Kajihara}
 \affiliation{
@@ -106,7 +112,18 @@ Biometric analysis in fish farms, such as weighing and measuring Nile tilapia, i
 % --- INÍCIO ---
 \begin{document}
 
+% --- Cabeçalho fixo (anais) ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small XVII Computer on the Beach --- 16 a 18 de abril de 2026, Florianópolis, SC, Brasil}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{14pt}
+
+
+
 \maketitle
+\thispagestyle{fancy}
 
 \section{Introdução}
 
@@ -144,7 +161,7 @@ Apesar dos resultados promissores em suínos e bovinos, observa-se uma lacuna qu
 O desenvolvimento foi conduzido em etapas sistemáticas, desde a aquisição dos dados até a avaliação do modelo.
 
 \subsection{Materiais e Ambiente}
-\textbf{Banco de Imagens:} foram utilizadas 5975 imagens no formato JPG de 1195 tilápias (5 imagens de cada animal em ângulos diversos). Os dados foram obtidos na base experimental da <omitido para revisão>, provenientes do estudo de Cardoso et al. \cite{Cardoso2021} e possuem aprovação da Comissão de Ética no Uso de Animais (CEUA/<omitido para revisão>). As imagens originais foram capturadas com fundo azul uniforme e uma régua de 30 cm imediatamente abaixo dos peixes, permitindo a utilização da escala como referência de tamanho. O estudo de origem empregou imagens RGB e em profundidade para estimar o rendimento de filé \cite{Cardoso2021}. Neste trabalho foram utilizadas apenas as imagens RGB.
+\textbf{Banco de Imagens:} foram utilizadas 5975 imagens no formato JPG de 1195 tilápias (5 imagens de cada animal em ângulos diversos). Os dados foram obtidos na base experimental da PEIXEGEN (Núcleo de Pesquisa, manejo, melhoramento e genética molecular em piscicultura de água doce, pertencente ao Departamento de Zootecnia do Centro de Ciências Agrárias da UEM), provenientes do estudo de Cardoso et al. \cite{Cardoso2021} e possuem aprovação da Comissão de Ética no Uso de Animais (CEUA/UEM). As imagens originais foram capturadas com fundo azul uniforme e uma régua de 30 cm imediatamente abaixo dos peixes, permitindo a utilização da escala como referência de tamanho. O estudo de origem empregou imagens RGB e em profundidade para estimar o rendimento de filé \cite{Cardoso2021}. Neste trabalho foram utilizadas apenas as imagens RGB.
 
 A Figura~\ref{fig:coleta} ilustra o processo de coleta das tilápias para registro das imagens, em ambiente de campo, enquanto a Figura~\ref{fig:exemplar_tilapia} apresenta um exemplo de imagem bruta utilizada como entrada da CNN, evidenciando o padrão de fundo e a referência de escala adotados.
 
