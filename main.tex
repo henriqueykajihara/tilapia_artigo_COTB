@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %         ARQUIVO LATEX - ARTIGO TCC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[sigconf,nonacm]{acmart}
+\documentclass[sigconf,nonacm,screen]{acmart}
 
 % --- PACOTES ESSENCIAIS ---
 \usepackage[utf8]{inputenc} % Permite acentuação em português
@@ -10,7 +10,8 @@
 \usepackage{amsmath}        % Para símbolos matemáticos como R^2
 \usepackage{textcomp}       % Para símbolo de copyright, etc.
 \usepackage{lipsum}         % Apenas para texto de exemplo (pode remover)
-\usepackage{placeins} \n\usepackage{fancyhdr}\n
+\usepackage{placeins}
+\usepackage{fancyhdr}
 
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
@@ -20,110 +21,74 @@
 %         BLOCO DE COPYRIGHT - SBC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setcopyright{none}
+\settopmatter{printccs=false}
 \settopmatter{printacmref=false}
 \settopmatter{runningheads=false}
 \renewcommand\footnotetextcopyrightpermission[1]{}
 
-\acmConference[XVII Computer on the Beach]{16 a 18 de abril de 2026}{Florianópolis, SC, Brasil}
+\acmConference[COTB '2026]{16 a 18 de abril de 2026}{Florianópolis, SC, Brasil}
 \acmISBN{}
 \acmDOI{} 
 
 % --- METADADOS DO ARTIGO ---
 \title{Predição de Peso da Tilápia do Nilo por Meio do Fenótipo Usando Redes Neurais Convolucionais}
 
-% Remove autores do cabeçalho
-\renewcommand{\shortauthors}{}
-
-
 \author{Henrique Yoshiharu Kajihara}
 \affiliation{
   \institution{Universidade Estadual de Maringá (UEM)}
   \streetaddress{Av. Colombo, 5790 - Bloco C56}
-  \city{Maringá}
-  \state{Paraná}
-  \country{Brasil}
-  \postcode{87020-900}
 }
 \email{henriqueykajihara@gmail.com} 
-
-%\author{Autor1 <omitido para revisão>}
-%\affiliation{
-%  \institution{Instituição <omitido para revisão>}
-%  \streetaddress{Endereço <omitido para revisão>}
-%  \city{Cidade}
-%  \state{Estado <omitido para revisão>}
-%  \country{Brasil}
-%  \postcode{<omitido para revisão>}
-%}
-%\email{email <omitido para revisao>} 
 
 \author{Josiane Melchiori Pinheiro}
 \affiliation{
   \institution{Universidade Estadual de Maringá (UEM)}
-  \city{Maringá}
-  \state{Paraná}
-  \country{Brasil}
 }
 \email{jmpferreira@uem.br}
-
-%\author{Autor2 <omitido para revisão>}
-%\affiliation{
-%  \institution{Instituição <omitido para revisão>}
-%  \city{Cidade}
-%  \state{Estado <omitido para revisão>}
-%  \country{Brasil}
-%}
-%\email{email <omitido para revisao>}
 
 % --- RESUMO / ABSTRACT ---
 \begin{abstract}
 Biometric analysis in fish farms, such as weighing and measuring Nile tilapia, is a manual and stressful procedure for the animals and incurs significant costs, leading to growth delays and stock losses. This study investigates the application of Convolutional Neural Networks (CNNs) to estimate tilapia weight from images of its phenotype, with the aim of automating and optimizing this process. Using an existing image dataset, several CNN models were trained and evaluated. The results are promising, with some configurations achieving discrepancies of only 45–50 grams between predicted and actual weight, and a coefficient of determination ($R^2$) of 0.97. It is concluded that it is feasible to develop an efficient and accurate system to predict the weight of Nile tilapia using CNNs, with potential to increase productivity and reduce costs in fish farming.
 \end{abstract}
 
-% --- CCS (ACM Computing Classification System) ---
-% Ferramenta para gerar: https://dl.acm.org/ccs
-\begin{CCSXML}
-<ccs2012>
-  <concept>
-    <concept_id>10010147.10010257.10010293.10010294</concept_id>
-    <concept_desc>Computing methodologies~Neural networks</concept_desc>
-    <concept_significance>500</concept_significance>
-  </concept>
-  <concept>
-    <concept_id>10010147.10010178.10010224.10010245.10010251</concept_id>
-    <concept_desc>Computing methodologies~Object recognition</concept_desc>
-    <concept_significance>300</concept_significance>
-  </concept>
-  <concept>
-    <concept_id>10003752.10003809.10003716.10011136.10011137</concept_id>
-    <concept_desc>Applied computing~Agriculture</concept_desc>
-    <concept_significance>400</concept_significance>
-  </concept>
-</ccs2012>
-\end{CCSXML}
-
-\ccsdesc[500]{Computing methodologies~Neural networks}
-\ccsdesc[300]{Computing methodologies~Object recognition}
-\ccsdesc[400]{Applied computing~Agriculture}
-
 % --- PALAVRAS-CHAVE ---
-\keywords{Inteligência Artificial (IA), Redes Neurais Convolucionais (CNNs), Visão Computacional, Tilápia do Nilo, Piscicultura, Predição de Peso.}
+\keywords{Inteligência Artificial (IA), Redes Neurais Convolucionais (CNNs), Visão Computacional, Tilápia do Nilo, Piscicultura.}
+
+\startPage{1}
 
 % --- INÍCIO ---
 \begin{document}
 
-% --- Cabeçalho fixo (anais) ---
+\renewcommand{\shortauthors}{H. Y. Kajihara e J. M. Pinheiro}
+
+% ==========================================================
+%  CABEÇALHO/RODAPÉ (fancyhdr) - AJUSTADO COMO PEDIDO
+%  1ª página: sem cabeçalho; rodapé com página à esquerda
+%  demais: cabeçalho normal; rodapé com página centralizada
+% ==========================================================
+
+% Estilo padrão (todas as páginas exceto a primeira)
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small XVII Computer on the Beach --- 16 a 18 de abril de 2026, Florianópolis, SC, Brasil}
-\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{{\small XVII Computer on the Beach} \\ \textit{16 a 18 de Abril de 2025, Florianópolis, SC, Brasil}}
+\fancyhead[R]{\shortauthors}
+\fancyfoot[C]{\thepage} % demais páginas: número centralizado
+\renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0pt}
 \setlength{\headheight}{14pt}
 
-
+% Estilo da primeira página
+\fancypagestyle{firstpage}{%
+  \fancyhf{}%
+  % sem cabeçalho na 1ª página
+  \renewcommand{\headrulewidth}{0pt}%
+  % rodapé: número à esquerda somente na 1ª página
+  \fancyfoot[L]{\thepage}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
 
 \maketitle
-\thispagestyle{fancy}
+\thispagestyle{firstpage}
 
 \section{Introdução}
 
@@ -418,14 +383,14 @@ Por fim, destaca-se que o desempenho do modelo pode variar em função da distri
 % --------------------------------------------------------------
 \section*{Agradecimentos}
 
-\indent Agradecemos ao núcleo <omitido para revisão> pela disponibilização das imagens utilizadas neste estudo.  
+\indent Agradecemos ao núcleo PEIXEGEN pela disponibilização das imagens utilizadas neste estudo.  
 Essas imagens foram essenciais para o desenvolvimento deste trabalho, permitindo treinar, validar e analisar os modelos de predição de peso das tilápias com rigor e confiabilidade.  
 Reconhecemos a importância da parceria e do suporte fornecido, que contribuíram de forma significativa para a realização desta pesquisa.
 
 % --------------------------------------------------------------
 %                 BIBLIOGRAFIA
 % --------------------------------------------------------------
-\bibliographystyle{ACM-Reference-Format}
+\bibliographystyle{unsrtnat}
 \bibliography{referencias_tcc} % Nome do arquivo .bib
 
 \end{document}
