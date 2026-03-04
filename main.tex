@@ -150,12 +150,12 @@ A Figura~\ref{fig:coleta} ilustra o processo de coleta das tilápias para regist
 %Revisor 1 - Faltou descrever no texto qual foi a estratégia de treinamento utilizada, por exemplo foi empregada validação cruzada k-fold? 
 %quantos folds? Não basta comentar sobre a métrica!
 \subsection{Divisão dos dados e protocolo de avaliação}
-Para evitar \textit{data leakage} e inflar artificialmente as métricas, a divisão dos dados foi feita no \textbf{nível do indivíduo}: todas as 5 imagens de um mesmo peixe permanecem sempre no mesmo subconjunto (treino, validação ou teste). 
-Foram utilizados \textbf{1.000 indivíduos} (totalizando 5.000 imagens) para treinamento e validação e \textbf{195 indivíduos} (975 imagens) foram reservados para um \textbf{teste independente}.
+Para evitar \textit{data leakage} e inflar artificialmente as métricas, a divisão dos dados foi feita no \textbf{nível do indivíduo}: todas as 5 imagens de um mesmo peixe permaneceram sempre no mesmo subconjunto (treino, validação ou teste). 
+Foram utilizados \textbf{1.000 indivíduos} (totalizando 5.000 imagens) para treinamento e validação, e \textbf{195 indivíduos} (975 imagens) foram reservados para um \textbf{teste independente}.
 
-Uma fração do conjunto de treinamento foi separada como \textbf{validação} para monitorar a convergência e apoiar escolhas de configuração (p.\ ex., número de épocas e comportamento dos otimizadores), enquanto o conjunto de teste permaneceu completamente isolado até a avaliação final.
+Uma fração do conjunto de treinamento foi separada como \textbf{validação} fixa para monitorar a convergência e apoiar escolhas de configuração (p.\ ex., número de épocas e comportamento dos otimizadores), enquanto o conjunto de teste permaneceu completamente isolado até a avaliação final.
 
-Embora a validação cruzada \textit{k-fold} seja uma alternativa robusta para estimar a capacidade de generalização, ela não foi adotada neste estudo devido ao custo computacional de múltiplos treinamentos completos de uma CNN em alta resolução \cite{Goodfellow2016}. Em vez disso, adotou-se a avaliação com \textbf{múltiplas sementes aleatórias} \cite{Domingos2015}, o que permite medir a estabilidade do treinamento e quantificar a sensibilidade a variações estocásticas (inicialização de pesos e ordenação de lotes).
+Devido à alta complexidade computacional inerente ao modelo proposto e ao tempo demandado para a execução dos experimentos, a validação cruzada não foi implementada neste estudo. Embora a validação cruzada seja reconhecida como uma técnica estatística robusta para estimar a capacidade de generalização, ela requer múltiplas execuções completas do processo de treinamento e validação, o que implicaria um custo computacional proibitivo no contexto deste trabalho. Diante disso, optou-se por uma abordagem mais viável, utilizando um conjunto de validação fixo e um conjunto de teste independente para avaliar o desempenho do modelo. Embora essa metodologia permita uma análise inicial consistente, a implementação da validação cruzada em estudos futuros pode proporcionar uma avaliação mais abrangente e confiável, mitigando possíveis vieses associados à divisão dos dados e aprimorando a robustez das conclusões obtidas.
 
 \textbf{Ferramentas:} o modelo foi implementado em Python 3.12, utilizando TensorFlow 2.18.0, OpenCV, Pandas e Matplotlib. Essas bibliotecas foram escolhidas por oferecerem suporte consolidado à construção de redes neurais profundas, processamento de imagens e visualização de resultados.
 
@@ -295,12 +295,15 @@ Nadam  & 50 & 20  & 48{,}12 & 0{,}96 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
 %Revisor 1 - O que mudou no modelo / treinamento para a obtenção dos resultados das tabelas 2 e 3?
 \subsubsection{O que muda entre Adam e Nadam}
-A comparação entre Adam e Nadam isola exclusivamente o \textbf{otimizador}: a arquitetura da CNN, o \textit{data augmentation}, o esquema de divisão por indivíduo e o conjunto de teste independente são mantidos constantes. Dessa forma, as diferenças de MAE e $R^2$ refletem principalmente o comportamento de convergência e estabilidade induzidos pelo método de otimização.
 
-O otimizador \textbf{Nadam} apresentou desempenho ligeiramente superior ao Adam, alcançando o melhor resultado geral com 30 épocas e semente igual a 30, obtendo \textbf{MAE de 45,0 gramas} e \textbf{$R^2$ de 0{,}97}. 
-Neste contexto, o termo \textit{semente} refere-se ao valor utilizado para inicializar de forma determinística os geradores de números aleatórios do processo de treinamento, influenciando, entre outros fatores, a inicialização dos pesos da rede e a ordem de apresentação das amostras. A avaliação com diferentes sementes permite analisar a estabilidade do modelo e sua sensibilidade a variações estocásticas inerentes ao aprendizado.
+A comparação entre os resultados apresentados nas Tabelas 2 e 3 foi conduzida alterando exclusivamente o \textbf{otimizador utilizado durante o treinamento da rede neural}. Todos os demais elementos do experimento foram mantidos constantes, incluindo a arquitetura da CNN, o conjunto de dados utilizado, o esquema de divisão por indivíduo, o uso do mesmo conjunto de teste independente, bem como as configurações de treinamento, como número de épocas e sementes de inicialização.
+
+No experimento correspondente à Tabela 2 foi utilizado o otimizador \textbf{Adam}, amplamente empregado em tarefas de aprendizado profundo devido à sua capacidade de adaptação da taxa de aprendizado e estabilidade durante o processo de treinamento. Já no experimento da Tabela 3 foi utilizado o otimizador \textbf{Nadam}, que consiste em uma variação do Adam que incorpora o momento de Nesterov, podendo proporcionar uma convergência mais estável e ajustes mais refinados dos pesos da rede.
+
+Dessa forma, as diferenças observadas nas métricas de desempenho, como o MAE e o coeficiente de determinação ($R^2$), podem ser atribuídas principalmente ao comportamento distinto desses algoritmos de otimização durante o processo de aprendizado da rede neural, uma vez que toda a estrutura experimental permaneceu inalterada.
 
 %Revisor 1 - Um erro MAE de 45 g é aceitável para a aplicação prática? Qual o peso médio das tilápias utilizadas no dataset?
 \subsubsection{Interpretação prática do erro (MAE)}
